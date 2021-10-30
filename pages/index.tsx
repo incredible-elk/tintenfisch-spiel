@@ -15,10 +15,12 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div className={styles.boxContainer}>
           <div className={styles.box}>
-            <p className={styles.description}>
-              Kannst du den Weg über&apos;s Eis wieder finden?
-            </p>
-            <button className={styles.button}>Start</button>
+            <div className={styles.boxChildren}>
+              <p className={styles.description}>
+                Kannst du den Weg über&apos;s Eis wieder finden?
+              </p>
+              <button className={styles.button}>Start</button>
+            </div>
           </div>
         </div>
       </main>
