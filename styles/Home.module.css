@@ -2,7 +2,7 @@
   min-height: 100vh;
 }
 
-.boxContainer {
+.container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -60,6 +60,10 @@
   border-radius: 5px;
   background-color: var(--dark);
   color: var(--light);
+}
+
+.hexagon {
+  fill: var(--dark);
 }
 
 .footer {
