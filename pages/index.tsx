@@ -4,6 +4,8 @@ import { IceGrid } from '../components/iceGrid'
 import { useState } from 'react'
 import styles from '../styles/Home.module.css'
 
+const hexagonList: [number, number][] = [[0,0], [1,0], [1,1], [1,2], [2,0], [2,1], [3,1]];
+
 const Home: NextPage = () => {
   const [isStarted, setIsStarted] = useState(false);
   return (
@@ -17,7 +19,7 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div className={styles.container}>
           {isStarted ? 
-            <IceGrid />
+            <IceGrid hexagonList={hexagonList} />
           :
             <div className={styles.box}>
               <div className={styles.boxChildren}>
