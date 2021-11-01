@@ -62,10 +62,6 @@
   color: var(--light);
 }
 
-.hexagon {
-  fill: var(--medium);
-}
-
 .footer {
   position: absolute;
   bottom: 5px;
