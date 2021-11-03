@@ -1,0 +1,11 @@
+.gridContainer {
+  padding: 20px;
+}
+
+.svg {
+  max-height: 80vh;
+}
+
+.hexagon {
+  fill: var(--medium);
+}
