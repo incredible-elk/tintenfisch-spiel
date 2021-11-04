@@ -15,6 +15,14 @@ const hexagonList: [number, number][] = [
   [7,2],
 ];
 
+const testPath: [number, number][] = [
+  [1,6], [1,7],
+  [2,5], [2,6], [2,8], [2,9],
+  [3,0], [3,1], [3,4], 
+  [4,2], [4,3], [4,5],
+  [5,3], [5,4], 
+];
+
 const Home: NextPage = () => {
   const [isStarted, setIsStarted] = useState(false);
   return (
@@ -28,7 +36,7 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div className={styles.container}>
           {isStarted ? 
-            <IceGrid hexagonList={hexagonList} />
+            <IceGrid hexagonList={hexagonList} path={testPath} />
           :
             <div className={styles.box}>
               <div className={styles.boxChildren}>
