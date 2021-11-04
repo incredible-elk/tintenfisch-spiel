@@ -8,4 +8,5 @@
 
 .hexagon {
   fill: var(--medium);
+  opacity: 0.85;
 }
