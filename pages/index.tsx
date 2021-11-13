@@ -1,10 +1,24 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { IceGrid } from '../components/iceGrid'
+import { isOdd } from '../utils/isOdd'
 import { useMemo, useState } from 'react'
 import styles from '../styles/Home.module.css'
 
 type Hexagon = [number, number];
+
+function getNeighbors([x, y]: Hexagon): Hexagon[] {
+  const yOffset = isOdd(x) ? 0 : -1;
+
+  return [
+    [x, y - 1],
+    [x + 1, y + yOffset],
+    [x + 1, y + 1 + yOffset],
+    [x, y + 1],
+    [x - 1, y + 1 + yOffset],
+    [x - 1, y + yOffset],
+  ]
+}
 
 const hexagonList: Hexagon[] = [
   [0,5], [0,6], [0,7], [0,8], [0,9], 
@@ -40,7 +54,7 @@ function generatePath({hexagonList, startHexagons, endHexagons}: Level): Hexagon
   const endHexagonIndex = Math.floor(Math.random() * endHexagons.length);
   const endHexagon = endHexagons[endHexagonIndex];
 
-  return [startHexagon, endHexagon];
+  return [startHexagon, endHexagon, ...getNeighbors([4 ,4])];
 }
 
 const Home: NextPage = () => {
