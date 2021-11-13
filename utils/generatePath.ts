@@ -54,7 +54,7 @@ function generatePathInner({hexagonList, startHexagon, maxPathLength}: {
   return path;
 }
 
-export function generatePath({hexagonList, startHexagons, endHexagons, minPathLenght, maxPathLength}: Level): Hexagon[] {
+export function generatePath({hexagonList, startHexagons, endHexagons, minPathLength, maxPathLength}: Level): Hexagon[] {
   const startHexagonIndex = Math.floor(Math.random() * startHexagons.length);
   const startHexagon = startHexagons[startHexagonIndex];
 
@@ -62,7 +62,7 @@ export function generatePath({hexagonList, startHexagons, endHexagons, minPathLe
     const path = generatePathInner({hexagonList, startHexagon, maxPathLength});
     const lastHexagon = path[path.length - 1];
 
-    if (path.length >= minPathLenght) {
+    if (path.length >= minPathLength) {
       if (endHexagons.find((endHexagon) => isEqual(endHexagon, lastHexagon))) {
         return path;
       }

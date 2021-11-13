@@ -4,6 +4,6 @@ export type Level = {
   hexagonList: Hexagon[];
   startHexagons: Hexagon[];
   endHexagons: Hexagon[];
-  minPathLenght: number;
+  minPathLength: number;
   maxPathLength: number;
 };

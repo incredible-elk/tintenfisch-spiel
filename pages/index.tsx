@@ -29,7 +29,7 @@ const level: Level = {
   hexagonList,
   startHexagons,
   endHexagons,
-  minPathLenght: 13,
+  minPathLength: 13,
   maxPathLength: 18,
 };
 
