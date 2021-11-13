@@ -2,10 +2,16 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { IceGrid } from '../components/iceGrid'
 import { isOdd } from '../utils/isOdd'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import styles from '../styles/Home.module.css'
 
+const maxPathGeneratorIterations = 200;
+
 type Hexagon = [number, number];
+
+function isEqual([x1, y1]: Hexagon, [x2, y2]: Hexagon): boolean {
+  return x1 === x2 && y1 === y2;
+}
 
 function getNeighbors([x, y]: Hexagon): Hexagon[] {
   const yOffset = isOdd(x) ? 0 : -1;
@@ -43,23 +49,68 @@ type Level = {
   hexagonList: Hexagon[];
   startHexagons: Hexagon[];
   endHexagons: Hexagon[];
+  minPathLenght: number;
+  maxPathLength: number;
 }
 
-const level: Level = {hexagonList, startHexagons, endHexagons};
+const level: Level = {hexagonList, startHexagons, endHexagons, minPathLenght: 13, maxPathLength: 18};
 
-function generatePath({hexagonList, startHexagons, endHexagons}: Level): Hexagon[] {
+function generatePathInner({hexagonList, startHexagon, maxPathLength}: {
+  hexagonList: Hexagon[];
+  startHexagon: Hexagon;
+  maxPathLength: number;
+}): Hexagon[] {
+  const path: Hexagon[] = [startHexagon];
+  let hexagon: Hexagon = startHexagon;
+  let availableHexagons = hexagonList.filter((availableHexagon) => (
+    !isEqual(availableHexagon, hexagon))
+  );
+
+  for (let i = 0; i < maxPathLength - 1; i++) {
+    const neighbors = getNeighbors(hexagon);
+    const availableNeighbors = neighbors.filter((neighbor) => (
+      availableHexagons.find((availableHexagon) => isEqual(availableHexagon, neighbor)) !== undefined
+    ))
+
+    if (availableNeighbors.length === 0) break;
+
+    const nextHexagonIndex = Math.floor(Math.random() * availableNeighbors.length);
+    const nextHexagon = availableNeighbors[nextHexagonIndex];
+
+    path.push(nextHexagon);
+    
+    availableHexagons = availableHexagons.filter((availableHexagon) => (
+      neighbors.every((neighbor) => !isEqual(availableHexagon, neighbor))
+    ));
+    
+    hexagon = nextHexagon;
+  }
+
+  return path;
+}
+
+function generatePath({hexagonList, startHexagons, endHexagons, minPathLenght, maxPathLength}: Level): Hexagon[] {
   const startHexagonIndex = Math.floor(Math.random() * startHexagons.length);
   const startHexagon = startHexagons[startHexagonIndex];
 
-  const endHexagonIndex = Math.floor(Math.random() * endHexagons.length);
-  const endHexagon = endHexagons[endHexagonIndex];
+  for (let i = 0; i < maxPathGeneratorIterations; i++) {
+    const path = generatePathInner({hexagonList, startHexagon, maxPathLength});
+    const lastHexagon = path[path.length - 1];
 
-  return [startHexagon, endHexagon, ...getNeighbors([4 ,4])];
+    if (path.length >= minPathLenght) {
+      if (endHexagons.find((endHexagon) => isEqual(endHexagon, lastHexagon))) {
+        return path;
+      }
+    }  
+  }
+
+  throw new Error(`Could not find suitable path after ${maxPathGeneratorIterations} iterations`);
 }
 
+
+
 const Home: NextPage = () => {
-  const [isStarted, setIsStarted] = useState(false);
-  const path = useMemo(() => generatePath(level), []);
+  const [path, setPath] = useState<Hexagon[]>();
   return (
     <>
       <Head>
@@ -70,7 +121,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <div className={styles.container}>
-          {isStarted ? 
+          {path ? 
             <IceGrid hexagonList={hexagonList} path={path} />
           :
             <div className={styles.box}>
@@ -78,7 +129,7 @@ const Home: NextPage = () => {
                 <p className={styles.description}>
                   Kannst du den Weg über&apos;s Eis wieder finden?
                 </p>
-                <button className={styles.button} onClick={() => setIsStarted(true)}>Start</button>
+                <button className={styles.button} onClick={() => setPath(generatePath(level))}>Start</button>
               </div>
             </div>
           }
