@@ -1,9 +1,10 @@
-import styles from '../styles/IceGrid.module.css'
+import type { Hexagon } from '../types'
 import { isOdd } from '../utils/isOdd'
+import styles from '../styles/IceGrid.module.css'
 
 type IceGridProps = {
-  hexagonList: [number, number][]; /* Array of Tuples */
-  path: [number, number][];
+  hexagonList: Hexagon[]; /* Array of Tuples */
+  path: Hexagon[];
 }
 
 export function IceGrid({hexagonList, path}: IceGridProps) {
