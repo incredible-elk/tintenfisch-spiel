@@ -8,4 +8,10 @@
 
 .hexagon {
   fill: var(--medium);
+  opacity: 0.85;
+}
+
+.hexagonPath {
+  fill: var(--path);
+  opacity: 0.85;
 }
