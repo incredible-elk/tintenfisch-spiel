@@ -1,4 +1,5 @@
 import styles from '../styles/IceGrid.module.css'
+import { isOdd } from '../utils/isOdd'
 
 type IceGridProps = {
   hexagonList: [number, number][]; /* Array of Tuples */
@@ -18,9 +19,8 @@ export function IceGrid({hexagonList, path}: IceGridProps) {
           <polygon id="hexagon" points="60,26 45,52 15,52 0,26 15,0 45,0"></polygon>
         </defs>
         {hexagonList.map(([x, y]) => {
-          const isXOdd = x % 2 === 1;
           const translateX = x * 46;
-          const translateY = y * 54 + (isXOdd ? 27 : 0);
+          const translateY = y * 54 + (isOdd(x) ? 27 : 0);
           const isOnPath = path.find(([xPath, yPath]) => xPath === x && yPath === y);
 
           return (
