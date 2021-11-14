@@ -1,9 +1,10 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { useState } from 'react'
 import type { Hexagon, Level } from '../types'
 import { IceGrid } from '../components/iceGrid'
+import { GameplayIceGrid } from '../components/gameplayIceGrid'
 import { generatePath } from '../utils/generatePath'
-import { useState } from 'react'
 import styles from '../styles/Home.module.css'
 
 const hexagonList: Hexagon[] = [
@@ -35,6 +36,7 @@ const level: Level = {
 
 const Home: NextPage = () => {
   const [path, setPath] = useState<Hexagon[]>();
+  const [isSolutionShown, setIsSolutionShown] = useState(true);
   return (
     <>
       <Head>
@@ -46,21 +48,34 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div className={styles.container}>
           {path ? 
-            <IceGrid 
-              clickableHexagons={[[3,0], [3,1], [3,2], [3,3], [3,4], [3,5], [3,6], [3,7], [3,8], [3,9]]}
-              hexagonList={hexagonList} 
-              onHexagonClick={(hexagon) => {
-                setPath([...path, hexagon]);
-              }} 
-              path={path} 
-            />
+            isSolutionShown ?
+              <IceGrid 
+                clickableHexagons={[]}
+                hexagonList={hexagonList} 
+                onHexagonClick={(hexagon) => {}} 
+                path={path} 
+              />
+            :
+              <GameplayIceGrid
+                hexagonList={hexagonList} 
+                path={path} 
+                startHexagons={level.startHexagons}
+              />
           :
             <div className={styles.box}>
               <div className={styles.boxChildren}>
                 <p className={styles.description}>
                   Kannst du den Weg über&apos;s Eis wieder finden?
                 </p>
-                <button className={styles.button} onClick={() => setPath(generatePath(level))}>Start</button>
+                <button 
+                  className={styles.button}
+                  onClick={() => {
+                    setPath(generatePath(level));
+                    setTimeout(() => {
+                      setIsSolutionShown(false);
+                    }, 1000);
+                  }}
+                >Start</button>
               </div>
             </div>
           }
