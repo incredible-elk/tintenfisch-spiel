@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import type { Hexagon, Level } from '../types'
 import { FrostedBox } from '../components/frostedBox'
 import { IceGrid } from '../components/iceGrid'
@@ -40,6 +40,16 @@ const level: Level = {
 const Home: NextPage = () => {
   const [path, setPath] = useState<Hexagon[]>();
   const [isSolutionShown, setIsSolutionShown] = useState(true);
+  const [result, setResult] = useState<"won" | "lost">();
+
+  const handleLoose = useCallback(() => {setResult('lost')}, []);
+  const handleWin = useCallback(() => {setResult('won')}, []);
+  const handleReset = useCallback(() => {
+    setPath(undefined);
+    setResult(undefined);
+    setIsSolutionShown(true);
+  }, []);
+
   return (
     <>
       <Head>
@@ -50,32 +60,42 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <div className={styles.container}>
-          {path ? 
-            isSolutionShown ?
-              <IceGrid 
-                clickableHexagons={[]}
-                hexagonList={hexagonList} 
-                mistakeHexagons={[]}
-                onHexagonClick={(hexagon) => {}} 
-                path={path} 
-              />
-            :
-              <GameplayIceGrid
-                hexagonList={hexagonList} 
-                path={path} 
-                startHexagons={level.startHexagons}
-              />
-          :
+          {result ?
             <FrostedBox 
-              buttonLabel="Start"
-              description="Kannst du den Weg über&apos;s Eis wieder finden?"
-              onButtonClick={() => {
-                    setPath(generatePath(level));
-                    setTimeout(() => {
-                      setIsSolutionShown(false);
-                    }, level.showSolutionTime);
-                  }}
-            />  
+              buttonLabel="Nochmal spielen"
+              description={result === "won" ? "Hurra! Du hast gewonnen!" : "Uuupsi! Du hast verloren!"}
+              onButtonClick={handleReset}
+            />
+          :
+            path ? 
+              isSolutionShown ?
+                <IceGrid 
+                  clickableHexagons={[]}
+                  hexagonList={hexagonList} 
+                  mistakeHexagons={[]}
+                  onHexagonClick={(hexagon) => {}} 
+                  path={path} 
+                />
+              :
+                <GameplayIceGrid
+                  hexagonList={hexagonList} 
+                  maxMistakes={level.maxMistakes}
+                  onLoose={handleLoose}
+                  onWin={handleWin}
+                  path={path} 
+                  startHexagons={level.startHexagons}
+                />
+            :
+              <FrostedBox 
+                buttonLabel="Start"
+                description="Kannst du den Weg über&apos;s Eis wieder finden?"
+                onButtonClick={() => {
+                  setPath(generatePath(level));
+                  setTimeout(() => {
+                    setIsSolutionShown(false);
+                  }, level.showSolutionTime);
+                }}
+              />  
           }
         </div>
       </main>
