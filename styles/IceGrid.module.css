@@ -1,4 +1,6 @@
 .gridContainer {
+  align-self: stretch;
+  text-align: center;
   padding: 20px;
 }
 
