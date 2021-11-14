@@ -1,24 +1,8 @@
 import type { Hexagon, Level } from '../types'
-import { isOdd } from '../utils/isOdd'
+import { isEqual } from '../utils/isEqual'
+import { getNeighbors } from './getNeighbors';
 
 const maxPathGeneratorIterations = 200;
-
-function isEqual([x1, y1]: Hexagon, [x2, y2]: Hexagon): boolean {
-  return x1 === x2 && y1 === y2;
-}
-
-function getNeighbors([x, y]: Hexagon): Hexagon[] {
-  const yOffset = isOdd(x) ? 0 : -1;
-
-  return [
-    [x, y - 1],
-    [x + 1, y + yOffset],
-    [x + 1, y + 1 + yOffset],
-    [x, y + 1],
-    [x - 1, y + 1 + yOffset],
-    [x - 1, y + yOffset],
-  ]
-}
 
 function generatePathInner({hexagonList, startHexagon, maxPathLength}: {
   hexagonList: Hexagon[];
