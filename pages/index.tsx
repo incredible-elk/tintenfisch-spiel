@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useState } from 'react'
 import type { Hexagon, Level } from '../types'
+import { FrostedBox } from '../components/frostedBox'
 import { IceGrid } from '../components/iceGrid'
 import { GameplayIceGrid } from '../components/gameplayIceGrid'
 import { generatePath } from '../utils/generatePath'
@@ -65,22 +66,16 @@ const Home: NextPage = () => {
                 startHexagons={level.startHexagons}
               />
           :
-            <div className={styles.box}>
-              <div className={styles.boxChildren}>
-                <p className={styles.description}>
-                  Kannst du den Weg über&apos;s Eis wieder finden?
-                </p>
-                <button 
-                  className={styles.button}
-                  onClick={() => {
+            <FrostedBox 
+              buttonLabel="Start"
+              description="Kannst du den Weg über&apos;s Eis wieder finden?"
+              onButtonClick={() => {
                     setPath(generatePath(level));
                     setTimeout(() => {
                       setIsSolutionShown(false);
                     }, level.showSolutionTime);
                   }}
-                >Start</button>
-              </div>
-            </div>
+            />  
           }
         </div>
       </main>
