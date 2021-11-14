@@ -4,11 +4,13 @@ import { isEqual } from '../utils/isEqual'
 import styles from '../styles/IceGrid.module.css'
 
 type IceGridProps = {
+  clickableHexagons: Hexagon[];
   hexagonList: Hexagon[]; /* Array of Tuples */
+  onHexagonClick: (hexagon: Hexagon) => void;
   path: Hexagon[];
 }
 
-export function IceGrid({hexagonList, path}: IceGridProps) {
+export function IceGrid({clickableHexagons, hexagonList, onHexagonClick, path}: IceGridProps) {
   const maxX = Math.max(...hexagonList.map(([x]) => x));
   const maxY = Math.max(...hexagonList.map(([_, y]) => y));
   const width = (maxX + 1) * 46 + 15;
@@ -25,9 +27,16 @@ export function IceGrid({hexagonList, path}: IceGridProps) {
           const translateX = x * 46;
           const translateY = y * 54 + (isOdd(x) ? 27 : 0);
           const isOnPath = path.find((pathHexagon) => isEqual(hexagon, pathHexagon));
+          const isClickable = clickableHexagons.find((clickableHexagon) => isEqual(hexagon, clickableHexagon))
 
           return (
-            <use className={isOnPath ? styles.hexagonPath : styles.hexagon} key={`${x},${y}`} xlinkHref="#hexagon" transform={`translate(${translateX},${translateY})`} />
+            <use 
+              className={isOnPath ? styles.hexagonPath : isClickable ? styles.hexagonClickable : styles.hexagon} 
+              key={`${x},${y}`}
+              onClick={isClickable ? () => onHexagonClick(hexagon) : undefined}
+              transform={`translate(${translateX},${translateY})`}
+              xlinkHref="#hexagon"
+            />
           )
         })}
       </svg>

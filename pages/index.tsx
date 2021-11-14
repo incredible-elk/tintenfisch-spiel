@@ -46,7 +46,14 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div className={styles.container}>
           {path ? 
-            <IceGrid hexagonList={hexagonList} path={path} />
+            <IceGrid 
+              clickableHexagons={[[3,0], [3,1], [3,2], [3,3], [3,4], [3,5], [3,6], [3,7], [3,8], [3,9]]}
+              hexagonList={hexagonList} 
+              onHexagonClick={(hexagon) => {
+                setPath([...path, hexagon]);
+              }} 
+              path={path} 
+            />
           :
             <div className={styles.box}>
               <div className={styles.boxChildren}>
