@@ -27,11 +27,13 @@ const endHexagons: Hexagon[] = [
 ];
 
 const level: Level = {
-  hexagonList,
-  startHexagons,
   endHexagons,
-  minPathLength: 13,
+  hexagonList,
+  maxMistakes: 2,
   maxPathLength: 18,
+  minPathLength: 13,
+  showSolutionTime: 8000, // miliseconds
+  startHexagons,
 };
 
 const Home: NextPage = () => {
@@ -74,7 +76,7 @@ const Home: NextPage = () => {
                     setPath(generatePath(level));
                     setTimeout(() => {
                       setIsSolutionShown(false);
-                    }, 1000);
+                    }, level.showSolutionTime);
                   }}
                 >Start</button>
               </div>
