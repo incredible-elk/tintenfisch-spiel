@@ -13,7 +13,7 @@ type GameplayIceGridProps = {
 
 export function GameplayIceGrid({hexagonList, path, startHexagons}: GameplayIceGridProps) {
   const [pathPosition, setPathPosition] = useState(0);
-
+  const [mistakeHexagons, setMistakeHexagons] = useState<Hexagon[]>([]);
 
   return (
     <IceGrid
@@ -24,9 +24,12 @@ export function GameplayIceGrid({hexagonList, path, startHexagons}: GameplayIceG
         getNeighbors(path[pathPosition - 1])
       }
       hexagonList={hexagonList} 
-      onHexagonClick={(hexagon) => {
+      mistakeHexagons={mistakeHexagons}
+      onHexagonClick={(hexagon: Hexagon) => {
         if (isEqual(hexagon, path[pathPosition]) ) {
           setPathPosition(pathPosition + 1)
+        } else {
+          setMistakeHexagons([...mistakeHexagons, hexagon])
         }
       }} 
       path={path.slice(0, pathPosition)}  

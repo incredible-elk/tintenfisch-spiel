@@ -52,6 +52,7 @@ const Home: NextPage = () => {
               <IceGrid 
                 clickableHexagons={[]}
                 hexagonList={hexagonList} 
+                mistakeHexagons={[]}
                 onHexagonClick={(hexagon) => {}} 
                 path={path} 
               />
