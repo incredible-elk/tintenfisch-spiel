@@ -1,5 +1,6 @@
 import type { Hexagon } from '../types'
 import { isOdd } from '../utils/isOdd'
+import { isEqual } from '../utils/isEqual'
 import styles from '../styles/IceGrid.module.css'
 
 type IceGridProps = {
@@ -19,10 +20,11 @@ export function IceGrid({hexagonList, path}: IceGridProps) {
         <defs>
           <polygon id="hexagon" points="60,26 45,52 15,52 0,26 15,0 45,0"></polygon>
         </defs>
-        {hexagonList.map(([x, y]) => {
+        {hexagonList.map((hexagon) => {
+          const [x, y] = hexagon;
           const translateX = x * 46;
           const translateY = y * 54 + (isOdd(x) ? 27 : 0);
-          const isOnPath = path.find(([xPath, yPath]) => xPath === x && yPath === y);
+          const isOnPath = path.find((pathHexagon) => isEqual(hexagon, pathHexagon));
 
           return (
             <use className={isOnPath ? styles.hexagonPath : styles.hexagon} key={`${x},${y}`} xlinkHref="#hexagon" transform={`translate(${translateX},${translateY})`} />
