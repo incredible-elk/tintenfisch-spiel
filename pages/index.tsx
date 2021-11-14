@@ -33,7 +33,7 @@ const level: Level = {
   maxMistakes: 2,
   maxPathLength: 18,
   minPathLength: 13,
-  showSolutionTime: 8000, // miliseconds
+  showSolutionTime: 10000, // miliseconds
   startHexagons,
 };
 
