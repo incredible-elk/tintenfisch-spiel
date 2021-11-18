@@ -5,7 +5,7 @@ import type { Hexagon, Level } from '../types'
 import { FrostedBox } from '../components/frostedBox'
 import { IceGrid } from '../components/iceGrid'
 import { GameplayIceGrid } from '../components/gameplayIceGrid'
-import { generatePath } from '../utils/generatePath'
+import { generatePath } from '../lib/generatePath'
 import styles from '../styles/Home.module.css'
 
 const hexagonList: Hexagon[] = [

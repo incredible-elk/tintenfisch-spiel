@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import type { Hexagon } from '../types'
 import { IceGrid } from './iceGrid'
-import { isEqual } from '../utils/isEqual'
-import { getNeighbors } from '../utils/getNeighbors'
+import { isEqual } from '../lib/isEqual'
+import { getNeighbors } from '../lib/getNeighbors'
 
 
 type GameplayIceGridProps = {

@@ -1,5 +1,5 @@
 import type { Hexagon, Level } from '../types'
-import { isEqual } from '../utils/isEqual'
+import { isEqual } from './isEqual'
 import { getNeighbors } from './getNeighbors';
 
 const maxPathGeneratorIterations = 200;

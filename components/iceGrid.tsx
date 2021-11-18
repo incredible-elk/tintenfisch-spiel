@@ -1,6 +1,6 @@
 import type { Hexagon } from '../types'
-import { isOdd } from '../utils/isOdd'
-import { isEqual } from '../utils/isEqual'
+import { isOdd } from '../lib/isOdd'
+import { isEqual } from '../lib/isEqual'
 import styles from '../styles/IceGrid.module.css'
 
 type IceGridProps = {
