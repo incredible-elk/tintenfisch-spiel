@@ -7,7 +7,7 @@
 }
 
 .box:before {
-  content: "";
+  content: '';
   background: inherit;
   position: absolute;
   top: -25px;

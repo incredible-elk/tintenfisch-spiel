@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react'
-import type { Hexagon } from '../types'
-import { IceGrid } from './iceGrid'
-import { isEqual } from '../lib/isEqual'
-import { getNeighbors } from '../lib/getNeighbors'
-
+import { useEffect, useState } from 'react';
+import type { Hexagon } from '../types';
+import { IceGrid } from './iceGrid';
+import { isEqual } from '../lib/isEqual';
+import { getNeighbors } from '../lib/getNeighbors';
 
 type GameplayIceGridProps = {
-  hexagonList: Hexagon[]; /* Array of Tuples */
+  hexagonList: Hexagon[] /* Array of Tuples */;
   maxMistakes: number;
   onLoose: () => void;
   onWin: () => void;
   path: Hexagon[];
   startHexagons: Hexagon[];
-}
+};
 
 export function GameplayIceGrid({
   hexagonList,
@@ -29,7 +28,7 @@ export function GameplayIceGrid({
   const isLost = mistakeHexagons.length >= maxMistakes;
   useEffect(() => {
     if (isWon) {
-       onWin(); 
+      onWin();
     }
   }, [isWon, onWin]);
 
@@ -42,21 +41,20 @@ export function GameplayIceGrid({
   return (
     <IceGrid
       clickableHexagons={
-        pathPosition === 0 ?
-          startHexagons
-        : 
-        getNeighbors(path[pathPosition - 1])
+        pathPosition === 0
+          ? startHexagons
+          : getNeighbors(path[pathPosition - 1])
       }
-      hexagonList={hexagonList} 
+      hexagonList={hexagonList}
       mistakeHexagons={mistakeHexagons}
       onHexagonClick={(hexagon: Hexagon) => {
-        if (isEqual(hexagon, path[pathPosition]) ) {
-          setPathPosition(pathPosition + 1)
+        if (isEqual(hexagon, path[pathPosition])) {
+          setPathPosition(pathPosition + 1);
         } else {
-          setMistakeHexagons([...mistakeHexagons, hexagon])
+          setMistakeHexagons([...mistakeHexagons, hexagon]);
         }
-      }} 
-      path={path.slice(0, pathPosition)}  
+      }}
+      path={path.slice(0, pathPosition)}
     />
   );
 }
